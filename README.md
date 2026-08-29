@@ -19,13 +19,13 @@ Then install any plugin from it:
 
 | Plugin | Description |
 |---|---|
-| `whs-wcag-audit` | WCAG 2.2 AA accessibility auditor, single-pass |
+| `wcag-audit` | WCAG 2.2 AA accessibility auditor, single-pass |
 | `ponytail` | Enforces the laziest working solution (YAGNI ladder) |
 | `cve-table` | `npm audit` → Vulnerable/Severity/GitHub-Id table |
-| `crux-bot` | Lints against the team's merged React/TS convention rules |
 | `upscale-markdown` | Decorates Markdown headers with matched emoji |
 | `changelog` | Generates/updates CHANGELOG.md from git history |
 | `marketplace-master` | Verifies plugin/marketplace structural standards |
+| `claudify-prompt` | Reviews or drafts prompts intended for Claude against a prompt-engineering checklist |
 
 ## ➕ Adding a plugin
 
@@ -35,6 +35,7 @@ Then install any plugin from it:
    ```
    npm run verify
    ```
+   or, from an active Claude Code session, `/marketplace-master`.
 
 ## 🛠️ Development
 

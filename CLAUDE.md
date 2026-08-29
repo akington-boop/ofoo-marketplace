@@ -21,6 +21,7 @@ This repository acts as an organizational Claude Code marketplace. Components ar
 ## Local Testing
 - Test a plugin in isolation: `claude --plugin-dir ./plugins/<plugin-id>`
 - Reload plugin state in active session: `/reload-plugins`
+- Run `/marketplace-master` after adding or editing any plugin, and before committing marketplace/plugin.json changes, to catch violations of the Critical Structure Rules above.
 
 ## Agent skills
 

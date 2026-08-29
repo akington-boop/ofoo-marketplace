@@ -16,6 +16,13 @@ Runs the marketplace's structural verification checks and reports the results. A
    (equivalent to `npm run verify`).
 2. Print the report it emits directly — it is already formatted Markdown.
 3. If it reports violations, summarize the highest-priority fix in one line before the full report.
+4. If `verify.js` fails to run (throws, non-zero exit with no report, syntax error) — do not invent or guess at a report. Print the raw error and stop.
+
+### Example output
+
+Clean run: `verify.js` prints `✅ All checks passed.` — relay it as-is, no extra summary line.
+
+Violations found: `verify.js` prints a Markdown report with one bullet per violation, e.g. `- ❌ plugins/foo/.claude-plugin/ contains extra file: notes.txt (manifest isolation)`. Precede it with a one-line summary of the highest-priority fix, e.g. "Highest priority: `plugins/foo` is missing `plugin.json`."
 
 ## Checks performed
 
@@ -23,7 +30,7 @@ Runs the marketplace's structural verification checks and reports the results. A
 2. **Root placement** — `skills/`, `commands/`, `agents/`, `hooks/`, `.mcp.json` live directly under `plugins/<id>/`, not nested deeper.
 3. **SKILL.md frontmatter** — every `SKILL.md` has `name` and `description`, and the description is 50 words or fewer.
 4. **`${CLAUDE_PLUGIN_ROOT}`** — `.mcp.json` / `hooks/hooks.json` use the env var instead of hardcoded local paths.
-5. **plugin.json fields** — valid JSON with non-empty `name`, `version`, `description`, `author`.
+5. **plugin.json fields** — valid JSON with non-empty `name`, `version`, `description`, `author` (string or `{name}` object); `name` must be lowercase kebab-case and match its plugin folder name.
 6. **marketplace.json consistency** — every `plugins/<id>` has a matching entry in `.claude-plugin/marketplace.json`, and vice versa.
 
 ## Implementation notes

@@ -1,9 +1,9 @@
 ---
-name: whs-wcag-audit
-description: Audits code against WCAG 2.2 AA accessibility guidelines across React, Angular, Vue, HTML, and CSS. Default mode scans staged git changes; supports full-repo or scoped-path scans too. Use when the user says /whs-wcag-audit or asks for an accessibility audit.
+name: wcag-audit
+description: Audits code against WCAG 2.2 AA accessibility guidelines across React, Angular, Vue, HTML, and CSS. Default mode scans staged git changes; supports full-repo or scoped-path scans too. Use when the user says /wcag-audit or asks for an accessibility audit.
 ---
 
-# whs-wcag-audit: WCAG 2.2 Accessibility Auditor
+# wcag-audit: WCAG 2.2 Accessibility Auditor
 
 You audit user code against WCAG 2.2 AA accessibility guidelines.
 
@@ -11,9 +11,9 @@ You audit user code against WCAG 2.2 AA accessibility guidelines.
 
 The user can invoke you in three ways:
 
-- **`/whs-wcag-audit`** (default, staged mode) — Audits only staged git changes (`git diff --staged`). Fast, pre-commit safe.
-- **`/whs-wcag-audit full`** (full repo scan) — Audits the entire repo, filtering to UI file types.
-- **`/whs-wcag-audit full <path>`** (scoped full scan) — Audits a specific folder, filtering to UI file types.
+- **`/wcag-audit`** (default, staged mode) — Audits only staged git changes (`git diff --staged`). Fast, pre-commit safe.
+- **`/wcag-audit full`** (full repo scan) — Audits the entire repo, filtering to UI file types.
+- **`/wcag-audit full <path>`** (scoped full scan) — Audits a specific folder, filtering to UI file types.
 
 ## Your Workflow
 
@@ -33,7 +33,7 @@ The user can invoke you in three ways:
 
 If mode is **staged** and `git diff --staged` is empty (no staged changes), emit this message and stop:
 
-> No staged changes found. Stage files first, or use `/whs-wcag-audit full` to scan the repo.
+> No staged changes found. Stage files first, or use `/wcag-audit full` to scan the repo.
 
 ## File Types to Scan
 
@@ -91,5 +91,5 @@ Full definitions (severity, detection method, WCAG reference, corrective example
 
 - **Report-only**: This skill produces no file edits, no auto-fix. All findings are human-reviewed by the developer.
 - **Severity mapping**: The severity levels in the audit output (CRITICAL, IMPORTANT, SUGGESTION) come directly from each anti-pattern's definition in `rules/a11y.md`.
-- **Large repos**: For full scans of very large repos (100+ UI files), you may hit context limits. Scope to a folder (`/whs-wcag-audit full src/components`) rather than trying to hold the whole repo in one pass.
+- **Large repos**: For full scans of very large repos (100+ UI files), you may hit context limits. Scope to a folder (`/wcag-audit full src/components`) rather than trying to hold the whole repo in one pass.
 - **Git context**: The script assumes you're in a git repository. If not, full scan mode will still work (scanning the filesystem). Staged mode will fail with a clear message ("Not a git repository").

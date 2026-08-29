@@ -1,0 +1,8 @@
+{
+  "name": "claudify-prompt",
+  "version": "1.0.0",
+  "description": "Reviews or drafts prompts intended for Claude against a prompt-engineering checklist.",
+  "author": {
+    "name": "Andy Kington"
+  }
+}

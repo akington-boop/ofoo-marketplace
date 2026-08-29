@@ -7,9 +7,9 @@
   },
   "plugins": [
     {
-      "name": "whs-wcag-audit",
+      "name": "wcag-audit",
       "description": "WCAG 2.2 AA accessibility auditor, single-pass.",
-      "source": "./plugins/whs-wcag-audit"
+      "source": "./plugins/wcag-audit"
     },
     {
       "name": "ponytail",
@@ -20,11 +20,6 @@
       "name": "cve-table",
       "description": "npm audit to Vulnerable/Severity/GitHub-Id table.",
       "source": "./plugins/cve-table"
-    },
-    {
-      "name": "crux-bot",
-      "description": "Lints against the team's merged React/TS convention rules.",
-      "source": "./plugins/crux-bot"
     },
     {
       "name": "upscale-markdown",
@@ -40,6 +35,11 @@
       "name": "marketplace-master",
       "description": "Verifies plugin and marketplace structural standards.",
       "source": "./plugins/marketplace-master"
+    },
+    {
+      "name": "claudify-prompt",
+      "description": "Reviews or drafts prompts intended for Claude against a prompt-engineering checklist.",
+      "source": "./plugins/claudify-prompt"
     }
   ]
 }

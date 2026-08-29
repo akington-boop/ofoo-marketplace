@@ -4,6 +4,7 @@ import path from 'node:path';
 const CAPABILITY_NAMES = ['skills', 'commands', 'agents', 'hooks', '.mcp.json'];
 const REQUIRED_MANIFEST_FIELDS = ['name', 'version', 'description', 'author'];
 const DESCRIPTION_WORD_LIMIT = 50;
+const PLUGIN_NAME_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
 function parseFrontmatter(content) {
   const lines = content.replace(/\r\n/g, '\n').split('\n');
@@ -153,10 +154,24 @@ export function checkPluginManifest(pluginDir) {
 
   const violations = [];
   for (const field of REQUIRED_MANIFEST_FIELDS) {
-    if (typeof manifest[field] !== 'string' || !manifest[field].trim()) {
+    const value = manifest[field];
+    const isNonEmptyString = typeof value === 'string' && value.trim();
+    const isAuthorObject = field === 'author' && value && typeof value === 'object' && typeof value.name === 'string' && value.name.trim();
+    if (!isNonEmptyString && !isAuthorObject) {
       violations.push(`.claude-plugin/plugin.json is missing required field "${field}"`);
     }
   }
+
+  if (typeof manifest.name === 'string' && manifest.name.trim()) {
+    if (!PLUGIN_NAME_PATTERN.test(manifest.name)) {
+      violations.push(`.claude-plugin/plugin.json "name" must be lowercase kebab-case (e.g. "my-plugin"), got "${manifest.name}"`);
+    }
+    const folderName = path.basename(pluginDir);
+    if (manifest.name !== folderName) {
+      violations.push(`.claude-plugin/plugin.json "name" ("${manifest.name}") must match its folder name ("${folderName}")`);
+    }
+  }
+
   return violations;
 }
 
@@ -182,7 +197,7 @@ export function checkMarketplaceConsistency(repoRoot) {
   }
 
   const violations = [];
-  const listed = (marketplace.plugins || []).map((p) => p.id);
+  const listed = (marketplace.plugins || []).map((p) => p.name);
   for (const id of onDisk) {
     if (!listed.includes(id)) {
       violations.push(`plugins/${id} exists but is not listed in marketplace.json`);

@@ -177,13 +177,48 @@ test('checkPluginManifest flags missing required fields and invalid JSON', () =>
   assert.match(violations2[0], /not valid JSON/);
 });
 
+test('checkPluginManifest accepts an author object (the real plugin.json convention)', () => {
+  const root = tmpRepo();
+  writeFile(
+    root,
+    'plugins/foo/.claude-plugin/plugin.json',
+    JSON.stringify({ name: 'foo', version: '1.0.0', description: 'fine', author: { name: 'Someone' } }),
+  );
+  const violations = checkPluginManifest(path.join(root, 'plugins/foo'));
+  assert.deepEqual(violations, []);
+});
+
+test('checkPluginManifest flags a non-kebab-case name', () => {
+  const root = tmpRepo();
+  writeFile(
+    root,
+    'plugins/My_Plugin/.claude-plugin/plugin.json',
+    JSON.stringify({ name: 'My_Plugin', version: '1.0.0', description: 'fine', author: 'Someone' }),
+  );
+  const violations = checkPluginManifest(path.join(root, 'plugins/My_Plugin'));
+  assert.equal(violations.length, 1);
+  assert.match(violations[0], /kebab-case/);
+});
+
+test('checkPluginManifest flags a name that does not match its folder', () => {
+  const root = tmpRepo();
+  writeFile(
+    root,
+    'plugins/foo/.claude-plugin/plugin.json',
+    JSON.stringify({ name: 'bar', version: '1.0.0', description: 'fine', author: 'Someone' }),
+  );
+  const violations = checkPluginManifest(path.join(root, 'plugins/foo'));
+  assert.equal(violations.length, 1);
+  assert.match(violations[0], /must match its folder name/);
+});
+
 test('checkMarketplaceConsistency passes when plugins/ and marketplace.json agree', () => {
   const root = tmpRepo();
   for (const [p, c] of Object.entries(goodPluginFiles('foo'))) writeFile(root, p, c);
   writeFile(
     root,
     '.claude-plugin/marketplace.json',
-    JSON.stringify({ name: 'test-marketplace', plugins: [{ id: 'foo', source: './plugins/foo' }] }),
+    JSON.stringify({ name: 'test-marketplace', plugins: [{ name: 'foo', source: './plugins/foo' }] }),
   );
   const violations = checkMarketplaceConsistency(root);
   assert.deepEqual(violations, []);
@@ -195,7 +230,7 @@ test('checkMarketplaceConsistency flags a plugin on disk missing from the regist
   writeFile(
     root,
     '.claude-plugin/marketplace.json',
-    JSON.stringify({ name: 'test-marketplace', plugins: [{ id: 'bar', source: './plugins/bar' }] }),
+    JSON.stringify({ name: 'test-marketplace', plugins: [{ name: 'bar', source: './plugins/bar' }] }),
   );
   const violations = checkMarketplaceConsistency(root);
   assert.equal(violations.length, 2);
@@ -209,7 +244,7 @@ test('runVerification aggregates a clean repo to zero violations', () => {
   writeFile(
     root,
     '.claude-plugin/marketplace.json',
-    JSON.stringify({ name: 'test-marketplace', plugins: [{ id: 'foo', source: './plugins/foo' }] }),
+    JSON.stringify({ name: 'test-marketplace', plugins: [{ name: 'foo', source: './plugins/foo' }] }),
   );
   const result = runVerification(root);
   assert.equal(result.totalViolations, 0);
@@ -231,7 +266,7 @@ test('formatReport renders a markdown report (smoke test)', () => {
   writeFile(
     root,
     '.claude-plugin/marketplace.json',
-    JSON.stringify({ name: 'test-marketplace', plugins: [{ id: 'foo', source: './plugins/foo' }] }),
+    JSON.stringify({ name: 'test-marketplace', plugins: [{ name: 'foo', source: './plugins/foo' }] }),
   );
   const report = formatReport(runVerification(root));
   assert.match(report, /Marketplace Verification/);
