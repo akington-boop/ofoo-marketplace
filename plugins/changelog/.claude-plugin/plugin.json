@@ -2,5 +2,7 @@
   "name": "changelog",
   "version": "1.0.0",
   "description": "Generates/updates CHANGELOG.md from git history.",
-  "author": "Andy Kington"
+  "author": {
+    "name": "Andy Kington"
+  }
 }

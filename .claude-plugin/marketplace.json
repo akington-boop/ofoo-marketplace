@@ -1,49 +1,43 @@
 {
   "name": "ofoo-marketplace",
+  "description": "Andy Kington's internal plugin marketplace.",
   "owner": {
     "name": "Andy Kington",
     "email": "akington@webmd.net"
   },
   "plugins": [
     {
-      "id": "whs-wcag-audit",
-      "name": "WCAG Audit",
+      "name": "whs-wcag-audit",
       "description": "WCAG 2.2 AA accessibility auditor, single-pass.",
       "source": "./plugins/whs-wcag-audit"
     },
     {
-      "id": "ponytail",
-      "name": "Ponytail",
+      "name": "ponytail",
       "description": "Enforces the laziest working solution (YAGNI ladder).",
       "source": "./plugins/ponytail"
     },
     {
-      "id": "cve-table",
-      "name": "CVE Table",
+      "name": "cve-table",
       "description": "npm audit to Vulnerable/Severity/GitHub-Id table.",
       "source": "./plugins/cve-table"
     },
     {
-      "id": "crux-bot",
-      "name": "Crux Bot Lint",
+      "name": "crux-bot",
       "description": "Lints against the team's merged React/TS convention rules.",
       "source": "./plugins/crux-bot"
     },
     {
-      "id": "upscale-markdown",
-      "name": "Upscale Markdown",
+      "name": "upscale-markdown",
       "description": "Decorates Markdown headers with matched emoji.",
       "source": "./plugins/upscale-markdown"
     },
     {
-      "id": "changelog",
-      "name": "Changelog",
+      "name": "changelog",
       "description": "Generates/updates CHANGELOG.md from git history.",
       "source": "./plugins/changelog"
     },
     {
-      "id": "marketplace-master",
-      "name": "Marketplace Master",
+      "name": "marketplace-master",
       "description": "Verifies plugin and marketplace structural standards.",
       "source": "./plugins/marketplace-master"
     }
