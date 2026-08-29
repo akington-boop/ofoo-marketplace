@@ -5,16 +5,15 @@ A personal Claude Code plugin marketplace: shared skills packaged as installable
 ## 📦 Adding this marketplace
 
 ```
-# TBD
+/plugin marketplace add https://github.com/akington-boop/ofoo-marketplace.git
 ```
-
-(Once this repo has a remote, replace the path above with the repo URL or `owner/repo`.)
 
 Then install any plugin from it:
 
 ```
 /plugin install <plugin-id>@ofoo-marketplace
 ```
+
 
 ## 🧩 Plugins
 
