@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.0] - 2026-08-29
+
+### Added
+- README.md for every plugin in the marketplace (`changelog`, `claudify-prompt`, `cve-table`, `marketplace-master`, `ponytail`, `upscale-markdown`, `wcag-audit`), covering what each does, when to use it, and usage.
+- Diagram images for the `cve-table` and `wcag-audit` plugin READMEs.
+
 ## [1.0.0] - 2026-08-29
 
 ### Added
