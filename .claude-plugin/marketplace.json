@@ -1,0 +1,47 @@
+{
+  "name": "ofoo-marketplace",
+  "plugins": [
+    {
+      "id": "whs-wcag-audit",
+      "name": "WCAG Audit",
+      "description": "WCAG 2.2 AA accessibility auditor, single-pass.",
+      "source": "./plugins/whs-wcag-audit"
+    },
+    {
+      "id": "ponytail",
+      "name": "Ponytail",
+      "description": "Enforces the laziest working solution (YAGNI ladder).",
+      "source": "./plugins/ponytail"
+    },
+    {
+      "id": "cve-table",
+      "name": "CVE Table",
+      "description": "npm audit to Vulnerable/Severity/GitHub-Id table.",
+      "source": "./plugins/cve-table"
+    },
+    {
+      "id": "crux-bot",
+      "name": "Crux Bot Lint",
+      "description": "Lints against the team's merged React/TS convention rules.",
+      "source": "./plugins/crux-bot"
+    },
+    {
+      "id": "upscale-markdown",
+      "name": "Upscale Markdown",
+      "description": "Decorates Markdown headers with matched emoji.",
+      "source": "./plugins/upscale-markdown"
+    },
+    {
+      "id": "changelog",
+      "name": "Changelog",
+      "description": "Generates/updates CHANGELOG.md from git history.",
+      "source": "./plugins/changelog"
+    },
+    {
+      "id": "marketplace-master",
+      "name": "Marketplace Master",
+      "description": "Verifies plugin and marketplace structural standards.",
+      "source": "./plugins/marketplace-master"
+    }
+  ]
+}

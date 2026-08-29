@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<crux_bot_rules paths="build/**/*.{ts,tsx}">
+
+<async_patterns>
+  <rule>Use async/await when steps are sequential and each depends on the previous result.</rule>
+  <rule>Use .then/.catch/.finally when the chain's resolved/rejected value is consumed only within the chain itself and no subsequent code depends on its outcome (e.g. teardown via `.finally` regardless of success/failure).</rule>
+  <rule>Violation: mixing paradigms inside a single `async` function — e.g. `await`-ing one call, then chaining `.then/.catch` off a later call instead of `await`-ing it.</rule>
+</async_patterns>
+
+<component_declarations>
+  <rule>`function` declaration + named export. No `React.FC`, no default exports.</rule>
+  <rule>Ref-forwarding exception: `export const MyComponent = React.forwardRef&lt;RefType, PropsType&gt;(function MyComponent(...) {...})` — name the inner function for stack traces.</rule>
+  <rule>New JSX transform: omit `import * as React` unless the file references a type/value via the `React.` namespace (`React.RefObject`, `React.MouseEvent`, `React.CSSProperties`, `React.ReactNode`, etc.).</rule>
+  <rule>Return type `JSX.Element`; use `JSX.Element | null` when the component may render nothing (conditional renders).</rule>
+</component_declarations>
+
+<guard_components>
+  <rule>A guard component controls access to a subtree: accepts a `Fallback` prop for the restricted state, renders `children` when the guard passes.</rule>
+  <rule>Name with a `Guard` suffix (`SponsorLevelGuard`, `AuthGuard`).</rule>
+  <rule>Fallback prop is always named `Fallback` (capital F).</rule>
+  <rule>Pass the fallback as an inline arrow at the call site: `Fallback={() => &lt;MyFallback /&gt;}` — never inline JSX directly in the prop value.</rule>
+  <rule>Extract the fallback UI as a named `function` in the same file, following the same component-declaration rules (function declaration, `JSX.Element` return type, no `React.FC`).</rule>
+</guard_components>
+
+<http_response_patterns>
+  <rule>`json-http-request` defines `ResultOf&lt;T&gt;`: `{ Success: boolean; ErrorMessage: string | null; Data: T | null }`.</rule>
+  <rule>`JsonHttpRequest.PostResult()`/`GetResult()` unwrap `Data` and return it directly (not the envelope).</rule>
+  <rule>When `PostResult`/`GetResult` returns `null` (i.e. `Success: false`), callers must check for null and surface `ErrorMessage` to the user or throw.</rule>
+  <rule>Custom response types (not using `PostResult`/`GetResult`) may deviate from `ResultOf`; document the shape in the API file's interface.</rule>
+</http_response_patterns>
+
+<state_and_data>
+  <rule>Core business logic lives in a class with `Observable`/`ObservableList` properties (`@residualeffect/reactor`), kept testable outside React.</rule>
+  <rule>Business/shared state: `@residualeffect/reactor` (`Observable`, `ObservableArray`, `ObservableObject`) inside service classes. Never `useState` outside local UI state.</rule>
+  <rule>Decision rule for `React.useState`: only for state that is purely presentational with no domain dependencies. If state is derived from domain data, affects domain data, or needs independent testing, it belongs in a service class.</rule>
+  <rule>Subscribe to `Observable`/`ObservableList` via `useObservable` (`@residualeffect/rereactor`); the component re-renders only when the observed value changes.</rule>
+  <rule>Subscribe via `@residualeffect/rereactor`'s `useObservable` hook. Exception: ui-rewards hand-rolls equivalent.</rule>
+  <rule>`useObservable` on an `ObservableList` returns the current array; a new array reference is emitted on every mutation, so no extra memoization is needed for correct re-rendering.</rule>
+  <rule>Form validation: `ValidatableFieldOf&lt;T&gt;` Observable with `Computed` derivations (`IsValid`, `ValidationMessage`, `HasChanged`, `CanSave`). (3 SPAs only; ui-rewards excludes.)</rule>
+  <rule>Data fetch: `@webmdhs/json-http-request` promise-based `Get`/`Post`/`Result`. Exception: ui-rewards uses callback-chained `HttpProxy` (`Success()`/`Failure()`).</rule>
+  <rule>Response envelopes: Three competing shapes—discriminated union (`SuccessValidationResultOf&lt;T&gt;`), library `Result` extension, flat `ResultOf&lt;T&gt;`. Check which before writing response handlers.</rule>
+  <rule>Singleton data-store via static `Instance` getter.</rule>
+</state_and_data>
+
+<string_checks>
+  <rule>Use `HasString` (`@webmdhs/general-data-structures`) for non-empty string guards, not manual null/length checks (`str != null &amp;&amp; str.length > 0`, `!!str`, `str?.length > 0`, `str !== ""`, etc.).</rule>
+  <rule>When suggesting `HasString`, include the import `import { HasString } from "@webmdhs/general-data-structures";` if not already present.</rule>
+</string_checks>
+
+<directory_structure>
+  <rule>Replace the loose global wildcard (`"paths": { "*": ["*"] }`) with a scoped prefix alias (e.g. `"@/*": ["./src/client/*"]`) under `moduleResolution: "Bundler"`. Mirror the same prefix in Webpack `resolve.alias` so runtime resolution matches TypeScript. This prevents TS from crawling `node_modules`, config dirs, and build artifacts during module resolution.</rule>
+  <rule>Isolate Node server in `server/` point `package.json` `main` at it.</rule>
+  <rule>Group files by type-suffix (`…AdminDetails.ts`, `…AdminEditor.tsx`) in `ProgramCriteria/&lt;TypeName&gt;/`.</rule>
+</directory_structure>
+
+<naming_conventions>
+  <rule>Generic type params: T-prefixed PascalCase (`TDataPoint`, `ValidatableFieldOf&lt;T&gt;`), never bare letters.</rule>
+  <rule severity="suggested">Public methods/properties: PascalCase (.NET-style), even in TS/TSX.</rule>
+  <rule>Services: `&lt;Feature&gt;Service` class name. Singleton services expose static `Instance` getter (ui-admin-infrastructure, ui-rewards).</rule>
+  <rule>Builders: `Builder` suffix with fluent `With*` methods.</rule>
+</naming_conventions>
+
+<component_architecture>
+  <rule>Prefer function declarations with explicit return types over `React.FC` arrows.</rule>
+  <rule>Service classes hold business logic; components are purely presentational. Decoupled singleton, view-data-shaper, service-locator, or factory as role.</rule>
+  <rule>`RouterLinkTo` factory: `export default function RouterLinkTo(to: string): React.ElementType { … }` — adapts MUI `component` prop to react-router.</rule>
+  <rule>Type-dispatch factory: shared interface `IDataPointTypeService` with per-type implementers, facade resolver at runtime.</rule>
+  <rule>Use Builder pattern for shaped domain objects.</rule>
+  <rule>Context + `useX` hook: co-locate in same file. Class holds state/logic; hook wraps Observable subscription.</rule>
+  <rule>Slot props: generic table accepts per-column components (`HeaderComponent`, `DataComponent`).</rule>
+</component_architecture>
+
+<styling_strategy>
+  <rule>Use `sx` prop with `SystemStyleObject&lt;Theme&gt;` on MUI v6/v7. Pattern: `const Styles = (_theme: Theme): SystemStyleObject&lt;Theme&gt; => ({…})`.</rule>
+  <rule>Theme: shared internal WebMD base package, not vanilla MUI/Material-UI defaults. ui-rewards uses `@webmdhs/jss-theme` (v4); others use `@webmdhs/mui-theme` (v6/v7).</rule>
+  <rule>Wrap root with `ScopedCssBaseline`.</rule>
+  <rule>When multiple React versions share a page, pair `ScopedCssBaseline` with an Emotion `CacheProvider` to isolate styles and avoid cross-version bleed.</rule>
+  <rule>Use `GlobalStyles` for global CSS overrides that cannot be scoped.</rule>
+  <rule>Per-icon imports using `Rounded` variant; MUI components via default imports, not barrel. Theme merge via `deepmerge` from `@mui/utils`.</rule>
+  <rule>Use `clsx` for conditional className composition.</rule>
+  <rule>Use TypeScript module augmentation to declare custom MUI component variants.</rule>
+</styling_strategy>
+
+<language_idioms>
+  <rule>Use `HasString` from `@webmdhs/general-data-structures` for string-presence checks instead of manual null/length checks.</rule>
+</language_idioms>
+
+<technical_debt>
+  <critical repo="ui-rewards">Material-UI v4 vs. v6/v7 elsewhere. Root cause cascades: JSS vs `sx` styling, `@webmdhs/jss-theme` vs `@webmdhs/mui-theme`, hand-rolled `HttpProxy`/`useObservable` instead of shared packages. v4→v6/v7 migration unlocks cross-app code sharing.</critical>
+  <high repo="ui-rewards">HTTP paradigm split: promise-based `@webmdhs/json-http-request` (3 SPAs) vs. callback-based `HttpProxy`. Treat as real migration cost when moving code.</high>
+  <medium repo="ui-rewards">`useObservable` duplicated locally instead of using `@residualeffect/rereactor`. Identical behavior, independent maintenance, drift risk.</medium>
+  <medium repo="all">Response envelope shapes inconsistent across group. Code touching &gt;1 SPA's API layer must verify shape first.</medium>
+</technical_debt>
+
+<universal_baseline>
+  • Absolute-path imports via a scoped prefix alias (e.g. `@/*`) in tsconfig `paths` under `moduleResolution: "Bundler"`, mirrored in Webpack `resolve.alias`.
+  • Business state via `@residualeffect/reactor` in service classes, never `useState` for shared state.
+  • Custom MUI/Material-UI theme from shared internal WebMD package.
+  • `&lt;Feature&gt;Service` class for business/view logic, decoupled from presentational components.
+</universal_baseline>
+
+</crux_bot_rules>

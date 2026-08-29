@@ -1,0 +1,6 @@
+{
+  "name": "crux-bot",
+  "version": "1.0.0",
+  "description": "Lints against the team's merged React/TS convention rules.",
+  "author": "Andy Kington"
+}

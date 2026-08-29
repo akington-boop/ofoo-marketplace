@@ -1,0 +1,6 @@
+{
+  "name": "upscale-markdown",
+  "version": "1.0.0",
+  "description": "Decorates Markdown headers with matched emoji.",
+  "author": "Andy Kington"
+}

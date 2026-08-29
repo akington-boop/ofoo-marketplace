@@ -1,0 +1,9 @@
+{
+  "name": "ofoo-marketplace",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "verify": "node plugins/marketplace-master/skills/marketplace-master/verify.js"
+  }
+}
