@@ -1,5 +1,9 @@
 {
   "name": "ofoo-marketplace",
+  "owner": {
+    "name": "Andy Kington",
+    "email": "akington@webmd.net"
+  },
   "plugins": [
     {
       "id": "whs-wcag-audit",
