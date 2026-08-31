@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0] - 2026-08-31
+
+### Added
+- LICENSE file for the `ponytail` plugin, carrying over the MIT license and copyright notice from the original upstream project.
+
+### Changed
+- `ponytail` README now credits the upstream source, links to its license, and has fully emoji-decorated headers.
+
 ## [1.1.0] - 2026-08-29
 
 ### Added
