@@ -1,0 +1,8 @@
+{
+  "name": "phipii-mini-audit",
+  "version": "1.0.0",
+  "description": "Audits staged changes for untagged PII/PHI exposure.",
+  "author": {
+    "name": "Andy Kington"
+  }
+}

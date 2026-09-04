@@ -40,6 +40,11 @@
       "name": "claudify-prompt",
       "description": "Reviews or drafts prompts intended for Claude against a prompt-engineering checklist.",
       "source": "./plugins/claudify-prompt"
+    },
+    {
+      "name": "phipii-mini-audit",
+      "description": "Audits staged changes for untagged PII/PHI exposure.",
+      "source": "./plugins/phipii-mini-audit"
     }
   ]
 }
