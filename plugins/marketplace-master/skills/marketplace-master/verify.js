@@ -211,6 +211,32 @@ export function checkMarketplaceConsistency(repoRoot) {
   return violations;
 }
 
+const README_TABLE_START = '| Plugin | Description |\n|---|---|\n';
+
+export function syncReadme(repoRoot) {
+  const readmePath = path.join(repoRoot, 'README.md');
+  const marketplacePath = path.join(repoRoot, '.claude-plugin', 'marketplace.json');
+  if (!fs.existsSync(readmePath) || !fs.existsSync(marketplacePath)) return false;
+
+  const marketplace = JSON.parse(fs.readFileSync(marketplacePath, 'utf8'));
+  const rows = (marketplace.plugins || [])
+    .map((p) => `| \`${p.name}\` | ${p.description.replace(/\.$/, '')} |`)
+    .join('\n');
+  const table = `${README_TABLE_START}${rows}\n`;
+
+  const readme = fs.readFileSync(readmePath, 'utf8');
+  const startIdx = readme.indexOf(README_TABLE_START);
+  if (startIdx === -1) return false;
+  const afterHeader = startIdx + README_TABLE_START.length;
+  const endIdx = readme.indexOf('\n\n', afterHeader);
+  if (endIdx === -1) return false;
+
+  const updated = readme.slice(0, startIdx) + table + readme.slice(endIdx + 1);
+  if (updated === readme) return false;
+  fs.writeFileSync(readmePath, updated);
+  return true;
+}
+
 export function runVerification(repoRoot) {
   const pluginsDir = path.join(repoRoot, 'plugins');
   const pluginIds = fs.existsSync(pluginsDir)
@@ -276,6 +302,7 @@ export function formatReport({ pluginIds, results, marketplaceConsistency, total
 function main() {
   const repoRoot = process.argv[2] ? path.resolve(process.argv[2]) : path.resolve(import.meta.dirname, '../../../..');
   const result = runVerification(repoRoot);
+  if (syncReadme(repoRoot)) console.log('📝 README.md plugin table updated.\n');
   console.log(formatReport(result));
   process.exit(result.totalViolations > 0 ? 1 : 0);
 }

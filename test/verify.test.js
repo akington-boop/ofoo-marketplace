@@ -11,6 +11,7 @@ import {
   checkPluginRootEnvVar,
   checkPluginManifest,
   checkMarketplaceConsistency,
+  syncReadme,
   runVerification,
   formatReport,
 } from '../plugins/marketplace-master/skills/marketplace-master/verify.js';
@@ -236,6 +237,36 @@ test('checkMarketplaceConsistency flags a plugin on disk missing from the regist
   assert.equal(violations.length, 2);
   assert.ok(violations.some((v) => /plugins\/foo/.test(v) && /not listed/.test(v)));
   assert.ok(violations.some((v) => /"bar"/.test(v) && /does not exist/.test(v)));
+});
+
+test('syncReadme rewrites the plugin table from marketplace.json', () => {
+  const root = tmpRepo();
+  writeFile(
+    root,
+    '.claude-plugin/marketplace.json',
+    JSON.stringify({
+      name: 'test-marketplace',
+      plugins: [
+        { name: 'foo', description: 'Does foo things.', source: './plugins/foo' },
+        { name: 'bar', description: 'Does bar things.', source: './plugins/bar' },
+      ],
+    }),
+  );
+  writeFile(
+    root,
+    'README.md',
+    '# repo\n\n## Plugins\n\n| Plugin | Description |\n|---|---|\n| `old` | stale |\n\n## Next section\n',
+  );
+
+  const changed = syncReadme(root);
+  assert.equal(changed, true);
+  const readme = fs.readFileSync(path.join(root, 'README.md'), 'utf8');
+  assert.ok(readme.includes('| `foo` | Does foo things |'));
+  assert.ok(readme.includes('| `bar` | Does bar things |'));
+  assert.ok(!readme.includes('`old`'));
+  assert.ok(readme.includes('## Next section'));
+
+  assert.equal(syncReadme(root), false);
 });
 
 test('runVerification aggregates a clean repo to zero violations', () => {

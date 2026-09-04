@@ -35,5 +35,5 @@ Violations found: `verify.js` prints a Markdown report with one bullet per viola
 
 ## Implementation notes
 
-- **Report-only**: this skill never edits files. Violations are for the developer to fix.
+- **Report-only for violations**: this skill never edits files to fix a violation — those are for the developer to fix. The one exception: it auto-syncs the README.md plugin table from `marketplace.json` on every run (`syncReadme`), since that's mechanical and always derivable.
 - If `verify.js`'s logic needs to change, update it and its tests together (`test/verify.test.js`, run via `npm test`) — the check functions are unit-tested; don't hand-edit around a failing test.
