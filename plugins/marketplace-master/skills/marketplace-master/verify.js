@@ -1,10 +1,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const CAPABILITY_NAMES = ['skills', 'commands', 'agents', 'hooks', '.mcp.json'];
 const REQUIRED_MANIFEST_FIELDS = ['name', 'version', 'description', 'author'];
 const DESCRIPTION_WORD_LIMIT = 50;
 const PLUGIN_NAME_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+const KNOWN_SKILL_FIELDS = ['name', 'description', 'license', 'allowed-tools', 'metadata'];
 
 function parseFrontmatter(content) {
   const lines = content.replace(/\r\n/g, '\n').split('\n');
@@ -119,6 +121,37 @@ export function checkSkillFrontmatter(pluginDir) {
     }
   }
   return violations;
+}
+
+function getChangedSkillMdPaths(repoRoot) {
+  try {
+    const output = execFileSync('git', ['diff', '--name-only', 'HEAD'], { cwd: repoRoot, encoding: 'utf8' });
+    return new Set(output.split('\n').filter((f) => f.endsWith('SKILL.md')));
+  } catch {
+    return new Set();
+  }
+}
+
+export function checkUnusedFrontmatterFields(pluginDir, changedSkillPaths, repoRoot) {
+  const suggestions = [];
+  const skillsDir = path.join(pluginDir, 'skills');
+  if (!fs.existsSync(skillsDir)) return suggestions;
+
+  for (const skillName of fs.readdirSync(skillsDir)) {
+    const skillMdPath = path.join(skillsDir, skillName, 'SKILL.md');
+    if (!fs.existsSync(skillMdPath)) continue;
+    const relFromRepoRoot = path.relative(repoRoot, skillMdPath);
+    if (!changedSkillPaths.has(relFromRepoRoot)) continue;
+
+    const rel = path.join('skills', skillName, 'SKILL.md');
+    const { fields } = parseFrontmatter(fs.readFileSync(skillMdPath, 'utf8'));
+    for (const field of Object.keys(fields)) {
+      if (!KNOWN_SKILL_FIELDS.includes(field)) {
+        suggestions.push(`${rel}: frontmatter field "${field}" is unused by Claude Code — consider removing it`);
+      }
+    }
+  }
+  return suggestions;
 }
 
 export function checkPluginRootEnvVar(pluginDir) {
@@ -246,7 +279,9 @@ export function runVerification(repoRoot) {
         .map((e) => e.name)
     : [];
 
+  const changedSkillPaths = getChangedSkillMdPaths(repoRoot);
   const results = {};
+  const suggestions = {};
   for (const id of pluginIds) {
     const pluginDir = path.join(pluginsDir, id);
     results[id] = {
@@ -256,6 +291,8 @@ export function runVerification(repoRoot) {
       pluginRootEnvVar: checkPluginRootEnvVar(pluginDir),
       pluginManifest: checkPluginManifest(pluginDir),
     };
+    const unusedFields = checkUnusedFrontmatterFields(pluginDir, changedSkillPaths, repoRoot);
+    if (unusedFields.length > 0) suggestions[id] = unusedFields;
   }
 
   const marketplaceConsistency = checkMarketplaceConsistency(repoRoot);
@@ -263,15 +300,32 @@ export function runVerification(repoRoot) {
     Object.values(results).reduce((sum, r) => sum + Object.values(r).flat().length, 0) +
     marketplaceConsistency.length;
 
-  return { pluginIds, results, marketplaceConsistency, totalViolations };
+  return { pluginIds, results, suggestions, marketplaceConsistency, totalViolations };
 }
 
-export function formatReport({ pluginIds, results, marketplaceConsistency, totalViolations }) {
+function appendSuggestions(lines, suggestions) {
+  const ids = Object.keys(suggestions);
+  if (ids.length === 0) return;
+  lines.push('### Suggestions (frontmatter lint)', '');
+  for (const id of ids) {
+    for (const s of suggestions[id]) {
+      lines.push(`- ${id}/${s}`);
+    }
+  }
+  lines.push('');
+}
+
+export function formatReport({ pluginIds, results, suggestions = {}, marketplaceConsistency, totalViolations }) {
   const lines = ['## Marketplace Verification', ''];
 
   if (totalViolations === 0) {
-    lines.push('✅ No violations found.');
-    return lines.join('\n');
+    if (Object.keys(suggestions).length === 0) {
+      lines.push('✅ No violations found.');
+      return lines.join('\n');
+    }
+    lines.push('✅ No violations found.', '');
+    appendSuggestions(lines, suggestions);
+    return lines.join('\n').trimEnd();
   }
 
   for (const id of pluginIds) {
@@ -295,6 +349,7 @@ export function formatReport({ pluginIds, results, marketplaceConsistency, total
     lines.push('');
   }
 
+  appendSuggestions(lines, suggestions);
   lines.push(`**Total violations:** ${totalViolations}`);
   return lines.join('\n');
 }

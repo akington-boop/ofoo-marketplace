@@ -17,6 +17,10 @@ Runs the marketplace's structural verification checks and reports the results. A
 2. Print the report it emits directly — it is already formatted Markdown.
 3. If it reports violations, summarize the highest-priority fix in one line before the full report.
 4. If `verify.js` fails to run (throws, non-zero exit with no report, syntax error) — do not invent or guess at a report. Print the raw error and stop.
+5. If this run was triggered by adding or updating a plugin (not just a routine check), also:
+   - Add or update `plugins/<id>/README.md` for that plugin — what it's for, when to use it, usage — matching the style of existing plugin READMEs.
+   - Add or update the root `CHANGELOG.md` with an entry for the change, following the existing Keep a Changelog style in that file (or use the `changelog` skill).
+   Root `README.md`'s plugin table is already kept in sync automatically (see below) — don't hand-edit it.
 
 ### Example output
 
@@ -32,6 +36,7 @@ Violations found: `verify.js` prints a Markdown report with one bullet per viola
 4. **`${CLAUDE_PLUGIN_ROOT}`** — `.mcp.json` / `hooks/hooks.json` use the env var instead of hardcoded local paths.
 5. **plugin.json fields** — valid JSON with non-empty `name`, `version`, `description`, `author` (string or `{name}` object); `name` must be lowercase kebab-case and match its plugin folder name.
 6. **marketplace.json consistency** — every `plugins/<id>` has a matching entry in `.claude-plugin/marketplace.json`, and vice versa.
+7. **Frontmatter lint (suggestion, not a violation)** — for any `SKILL.md` changed in the working tree (`git diff --name-only HEAD`), flags frontmatter fields Claude Code doesn't use (anything outside `name`, `description`, `license`, `allowed-tools`, `metadata`) and suggests removing them. Printed under a separate "Suggestions" section; doesn't count toward total violations.
 
 ## Implementation notes
 
