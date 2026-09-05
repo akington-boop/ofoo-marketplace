@@ -1,5 +1,18 @@
 # Changelog
 
+## [Unreleased] - 2026-09-04
+
+### Added
+- `phipii-mini-audit` plugin: audits code for untagged PII/PHI against a research-backed tagging ruleset.
+- `commit-message` plugin: generates commit messages.
+- TypeScript typechecking (`npm run typecheck`) for marketplace scripts.
+- `marketplace-master` skill now surfaces non-blocking suggestions for unused SKILL.md frontmatter fields.
+
+### Changed
+- Converted the marketplace verifier from `verify.js` to `verify.ts`.
+- `marketplace-master` skill: after adding/updating a plugin, also update the plugin's README and this CHANGELOG.
+- `commit-message` skill no longer requires an issue ID.
+
 ## [1.2.0] - 2026-08-31
 
 ### Added

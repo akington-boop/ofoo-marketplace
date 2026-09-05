@@ -42,6 +42,6 @@ Then install any plugin from it:
 ## 🛠️ Development
 
 ```
-npm test     # run verify.js's unit tests
+npm test     # run verify.ts's unit tests
 npm run verify   # check all plugins against the structural rules
 ```

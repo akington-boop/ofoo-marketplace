@@ -14,7 +14,7 @@ import {
   syncReadme,
   runVerification,
   formatReport,
-} from '../plugins/marketplace-master/skills/marketplace-master/verify.js';
+} from '../plugins/marketplace-master/skills/marketplace-master/verify.ts';
 
 function tmpRepo() {
   return fs.mkdtempSync(path.join(os.tmpdir(), 'marketplace-master-'));

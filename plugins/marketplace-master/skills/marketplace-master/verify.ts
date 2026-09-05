@@ -8,7 +8,51 @@ const DESCRIPTION_WORD_LIMIT = 50;
 const PLUGIN_NAME_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const KNOWN_SKILL_FIELDS = ['name', 'description', 'license', 'allowed-tools', 'metadata'];
 
-function parseFrontmatter(content) {
+/** A list of human-readable violation messages for one check. */
+type Violations = string[];
+
+/** Frontmatter fields parsed from a SKILL.md, keyed by field name. */
+type FrontmatterFields = Record<string, string>;
+
+interface ParsedFrontmatter {
+  hasFrontmatter: boolean;
+  fields: FrontmatterFields;
+}
+
+/** All checks run against a single plugin directory. */
+interface PluginCheckResults {
+  manifestIsolation: Violations;
+  rootPlacement: Violations;
+  skillFrontmatter: Violations;
+  pluginRootEnvVar: Violations;
+  pluginManifest: Violations;
+}
+
+interface VerificationResult {
+  pluginIds: string[];
+  results: Record<string, PluginCheckResults>;
+  suggestions: Record<string, Violations>;
+  marketplaceConsistency: Violations;
+  totalViolations: number;
+}
+
+interface PluginManifest {
+  name?: string;
+  version?: string;
+  description?: string;
+  author?: string | { name?: string };
+}
+
+interface MarketplaceEntry {
+  name: string;
+  description: string;
+}
+
+interface MarketplaceManifest {
+  plugins?: MarketplaceEntry[];
+}
+
+function parseFrontmatter(content: string): ParsedFrontmatter {
   const lines = content.replace(/\r\n/g, '\n').split('\n');
   if (lines[0]?.trim() !== '---') return { hasFrontmatter: false, fields: {} };
 
@@ -22,7 +66,7 @@ function parseFrontmatter(content) {
   if (end === -1) return { hasFrontmatter: false, fields: {} };
 
   const body = lines.slice(1, end);
-  const fields = {};
+  const fields: FrontmatterFields = {};
   let i = 0;
   while (i < body.length) {
     const match = body[i].match(/^(\w[\w-]*):\s*(.*)$/);
@@ -34,7 +78,7 @@ function parseFrontmatter(content) {
     let value = match[2].trim();
     const isBlockScalar = value === '' || /^[>|][-+]?$/.test(value);
     if (isBlockScalar) {
-      const collected = [];
+      const collected: string[] = [];
       let j = i + 1;
       while (j < body.length && (body[j] === '' || /^\s+/.test(body[j]))) {
         collected.push(body[j].trim());
@@ -51,13 +95,13 @@ function parseFrontmatter(content) {
   return { hasFrontmatter: true, fields };
 }
 
-export function checkManifestIsolation(pluginDir) {
+export function checkManifestIsolation(pluginDir: string): Violations {
   const manifestDir = path.join(pluginDir, '.claude-plugin');
   if (!fs.existsSync(manifestDir)) {
     return ['.claude-plugin/ directory is missing'];
   }
 
-  const violations = [];
+  const violations: Violations = [];
   const entries = fs.readdirSync(manifestDir);
   for (const entry of entries) {
     if (entry !== 'plugin.json') {
@@ -72,10 +116,10 @@ export function checkManifestIsolation(pluginDir) {
   return violations;
 }
 
-export function checkRootPlacement(pluginDir) {
-  const violations = [];
+export function checkRootPlacement(pluginDir: string): Violations {
+  const violations: Violations = [];
 
-  function walk(dir) {
+  function walk(dir: string): void {
     if (!fs.existsSync(dir)) return;
     for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
       const full = path.join(dir, entry.name);
@@ -93,8 +137,8 @@ export function checkRootPlacement(pluginDir) {
   return violations;
 }
 
-export function checkSkillFrontmatter(pluginDir) {
-  const violations = [];
+export function checkSkillFrontmatter(pluginDir: string): Violations {
+  const violations: Violations = [];
   const skillsDir = path.join(pluginDir, 'skills');
   if (!fs.existsSync(skillsDir)) return violations;
 
@@ -123,7 +167,7 @@ export function checkSkillFrontmatter(pluginDir) {
   return violations;
 }
 
-function getChangedSkillMdPaths(repoRoot) {
+function getChangedSkillMdPaths(repoRoot: string): Set<string> {
   try {
     const output = execFileSync('git', ['diff', '--name-only', 'HEAD'], { cwd: repoRoot, encoding: 'utf8' });
     return new Set(output.split('\n').filter((f) => f.endsWith('SKILL.md')));
@@ -132,8 +176,12 @@ function getChangedSkillMdPaths(repoRoot) {
   }
 }
 
-export function checkUnusedFrontmatterFields(pluginDir, changedSkillPaths, repoRoot) {
-  const suggestions = [];
+export function checkUnusedFrontmatterFields(
+  pluginDir: string,
+  changedSkillPaths: Set<string>,
+  repoRoot: string,
+): Violations {
+  const suggestions: Violations = [];
   const skillsDir = path.join(pluginDir, 'skills');
   if (!fs.existsSync(skillsDir)) return suggestions;
 
@@ -154,8 +202,8 @@ export function checkUnusedFrontmatterFields(pluginDir, changedSkillPaths, repoR
   return suggestions;
 }
 
-export function checkPluginRootEnvVar(pluginDir) {
-  const violations = [];
+export function checkPluginRootEnvVar(pluginDir: string): Violations {
+  const violations: Violations = [];
   const filesToCheck = [path.join(pluginDir, '.mcp.json'), path.join(pluginDir, 'hooks', 'hooks.json')];
 
   for (const file of filesToCheck) {
@@ -172,24 +220,25 @@ export function checkPluginRootEnvVar(pluginDir) {
   return violations;
 }
 
-export function checkPluginManifest(pluginDir) {
+export function checkPluginManifest(pluginDir: string): Violations {
   const manifestPath = path.join(pluginDir, '.claude-plugin', 'plugin.json');
   if (!fs.existsSync(manifestPath)) {
     return ['.claude-plugin/plugin.json is missing'];
   }
 
-  let manifest;
+  let manifest: PluginManifest;
   try {
     manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   } catch (err) {
-    return [`.claude-plugin/plugin.json is not valid JSON: ${err.message}`];
+    return [`.claude-plugin/plugin.json is not valid JSON: ${(err as Error).message}`];
   }
 
-  const violations = [];
+  const violations: Violations = [];
   for (const field of REQUIRED_MANIFEST_FIELDS) {
-    const value = manifest[field];
+    const value = manifest[field as keyof PluginManifest];
     const isNonEmptyString = typeof value === 'string' && value.trim();
-    const isAuthorObject = field === 'author' && value && typeof value === 'object' && typeof value.name === 'string' && value.name.trim();
+    const isAuthorObject =
+      field === 'author' && value && typeof value === 'object' && typeof value.name === 'string' && value.name.trim();
     if (!isNonEmptyString && !isAuthorObject) {
       violations.push(`.claude-plugin/plugin.json is missing required field "${field}"`);
     }
@@ -208,7 +257,7 @@ export function checkPluginManifest(pluginDir) {
   return violations;
 }
 
-export function checkMarketplaceConsistency(repoRoot) {
+export function checkMarketplaceConsistency(repoRoot: string): Violations {
   const marketplacePath = path.join(repoRoot, '.claude-plugin', 'marketplace.json');
   const pluginsDir = path.join(repoRoot, 'plugins');
   const onDisk = fs.existsSync(pluginsDir)
@@ -222,14 +271,14 @@ export function checkMarketplaceConsistency(repoRoot) {
     return ['.claude-plugin/marketplace.json is missing'];
   }
 
-  let marketplace;
+  let marketplace: MarketplaceManifest;
   try {
     marketplace = JSON.parse(fs.readFileSync(marketplacePath, 'utf8'));
   } catch (err) {
-    return [`.claude-plugin/marketplace.json is not valid JSON: ${err.message}`];
+    return [`.claude-plugin/marketplace.json is not valid JSON: ${(err as Error).message}`];
   }
 
-  const violations = [];
+  const violations: Violations = [];
   const listed = (marketplace.plugins || []).map((p) => p.name);
   for (const id of onDisk) {
     if (!listed.includes(id)) {
@@ -246,12 +295,12 @@ export function checkMarketplaceConsistency(repoRoot) {
 
 const README_TABLE_START = '| Plugin | Description |\n|---|---|\n';
 
-export function syncReadme(repoRoot) {
+export function syncReadme(repoRoot: string): boolean {
   const readmePath = path.join(repoRoot, 'README.md');
   const marketplacePath = path.join(repoRoot, '.claude-plugin', 'marketplace.json');
   if (!fs.existsSync(readmePath) || !fs.existsSync(marketplacePath)) return false;
 
-  const marketplace = JSON.parse(fs.readFileSync(marketplacePath, 'utf8'));
+  const marketplace: MarketplaceManifest = JSON.parse(fs.readFileSync(marketplacePath, 'utf8'));
   const rows = (marketplace.plugins || [])
     .map((p) => `| \`${p.name}\` | ${p.description.replace(/\.$/, '')} |`)
     .join('\n');
@@ -270,7 +319,7 @@ export function syncReadme(repoRoot) {
   return true;
 }
 
-export function runVerification(repoRoot) {
+export function runVerification(repoRoot: string): VerificationResult {
   const pluginsDir = path.join(repoRoot, 'plugins');
   const pluginIds = fs.existsSync(pluginsDir)
     ? fs
@@ -280,8 +329,8 @@ export function runVerification(repoRoot) {
     : [];
 
   const changedSkillPaths = getChangedSkillMdPaths(repoRoot);
-  const results = {};
-  const suggestions = {};
+  const results: Record<string, PluginCheckResults> = {};
+  const suggestions: Record<string, Violations> = {};
   for (const id of pluginIds) {
     const pluginDir = path.join(pluginsDir, id);
     results[id] = {
@@ -303,7 +352,7 @@ export function runVerification(repoRoot) {
   return { pluginIds, results, suggestions, marketplaceConsistency, totalViolations };
 }
 
-function appendSuggestions(lines, suggestions) {
+function appendSuggestions(lines: string[], suggestions: Record<string, Violations>): void {
   const ids = Object.keys(suggestions);
   if (ids.length === 0) return;
   lines.push('### Suggestions (frontmatter lint)', '');
@@ -315,7 +364,13 @@ function appendSuggestions(lines, suggestions) {
   lines.push('');
 }
 
-export function formatReport({ pluginIds, results, suggestions = {}, marketplaceConsistency, totalViolations }) {
+export function formatReport({
+  pluginIds,
+  results,
+  suggestions = {},
+  marketplaceConsistency,
+  totalViolations,
+}: VerificationResult): string {
   const lines = ['## Marketplace Verification', ''];
 
   if (totalViolations === 0) {
@@ -354,7 +409,7 @@ export function formatReport({ pluginIds, results, suggestions = {}, marketplace
   return lines.join('\n');
 }
 
-function main() {
+function main(): void {
   const repoRoot = process.argv[2] ? path.resolve(process.argv[2]) : path.resolve(import.meta.dirname, '../../../..');
   const result = runVerification(repoRoot);
   if (syncReadme(repoRoot)) console.log('📝 README.md plugin table updated.\n');
