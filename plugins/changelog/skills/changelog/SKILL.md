@@ -34,9 +34,11 @@ Generate or update a `CHANGELOG.md` in the current project using staged/committe
    ## [Unreleased] - 2026-08-07
 
    ### Changed
+
    - Apply ScopedCssBaseline rule universally; remove repo-scoped carve-outs.
 
    ### Removed
+
    - Drop ui-messaging-specific view-model/JSX Editor() rule.
    ```
 

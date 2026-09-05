@@ -1,8 +1,8 @@
 {
-  "name": "changelog",
-  "version": "1.0.0",
-  "description": "Generates/updates CHANGELOG.md from git history.",
-  "author": {
-    "name": "Andy Kington"
-  }
+	"name": "changelog",
+	"version": "1.0.0",
+	"description": "Generates/updates CHANGELOG.md from git history.",
+	"author": {
+		"name": "Andy Kington"
+	}
 }

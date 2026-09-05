@@ -50,17 +50,17 @@ Exclude: `*.test.ts`, `*.test.tsx`, `*.spec.ts`, `*.spec.tsx`, `*.config.ts`, `*
 
 ## Anti-Pattern Categories (all checked in one pass)
 
-| Codes | Category | POUR |
-|-------|----------|------|
-| S1–S8 | Semantic HTML | Perceivable |
-| D1–D4 | Media (decorative/informational) | Perceivable |
-| V1–V5 | Visual and color | Perceivable |
-| K1–K7 | Keyboard and focus | Operable |
-| F1–F6 | Forms, labels, error handling | Understandable |
-| A1–A8 | ARIA | Robust |
-| RX1–RX4 | React/Next.js | Robust |
-| NG1–NG4 | Angular | Robust |
-| VU1–VU3 | Vue | Robust |
+| Codes   | Category                         | POUR           |
+| ------- | -------------------------------- | -------------- |
+| S1–S8   | Semantic HTML                    | Perceivable    |
+| D1–D4   | Media (decorative/informational) | Perceivable    |
+| V1–V5   | Visual and color                 | Perceivable    |
+| K1–K7   | Keyboard and focus               | Operable       |
+| F1–F6   | Forms, labels, error handling    | Understandable |
+| A1–A8   | ARIA                             | Robust         |
+| RX1–RX4 | React/Next.js                    | Robust         |
+| NG1–NG4 | Angular                          | Robust         |
+| VU1–VU3 | Vue                              | Robust         |
 
 Detect framework-specific patterns by file type and syntax: React (`htmlFor`, `useRef`, `.tsx`), Angular (`(click)`, `cdkTrapFocus`), Vue (`@click`, `v-if`).
 
@@ -72,14 +72,17 @@ Full definitions (severity, detection method, WCAG reference, corrective example
 ## WCAG Audit — [staged diff | full repo | full scan: <path>]
 
 ### 🔴 CRITICAL ([count])
+
 - **S8** `src/Button.tsx:42` — Interactive div with onClick but no role or keyboard handler
 - **F1** `src/Form.tsx:18` — Input without associated label
 
 ### 🟡 IMPORTANT ([count])
+
 - **K4** `src/App.tsx:5` — No skip link as first focusable element
 - **V3** `src/styles.css:24` — Fixed font-size preventing resize
 
 ### 🔵 SUGGESTION ([count])
+
 - **V5** `src/Card.css:12` — Animation without prefers-reduced-motion guard
 
 ✅ No findings in: [categories with no violations, if any]

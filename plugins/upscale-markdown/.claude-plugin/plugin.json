@@ -1,8 +1,8 @@
 {
-  "name": "upscale-markdown",
-  "version": "1.0.0",
-  "description": "Decorates Markdown headers with matched emoji.",
-  "author": {
-    "name": "Andy Kington"
-  }
+	"name": "upscale-markdown",
+	"version": "1.0.0",
+	"description": "Decorates Markdown headers with matched emoji.",
+	"author": {
+		"name": "Andy Kington"
+	}
 }

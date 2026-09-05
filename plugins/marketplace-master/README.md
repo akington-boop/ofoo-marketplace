@@ -11,7 +11,7 @@ Plugin structure violations (a stray file in `.claude-plugin/`, a mismatched `na
 - **`SKILL.md` frontmatter** — every `SKILL.md` has `name` and a description ≤50 words
 - **`${CLAUDE_PLUGIN_ROOT}`** — hooks/MCP configs use the env var, not hardcoded local paths
 - **`plugin.json` fields** — valid JSON, non-empty `name`/`version`/`description`/`author`, `name` is lowercase kebab-case matching its folder
-- **Unused frontmatter fields** *(suggestion, non-blocking)* — for `SKILL.md` files changed in this branch, flags frontmatter fields Claude Code doesn't recognize
+- **Unused frontmatter fields** _(suggestion, non-blocking)_ — for `SKILL.md` files changed in this branch, flags frontmatter fields Claude Code doesn't recognize
 - **`marketplace.json` consistency** — every plugin folder has a matching registry entry, and vice versa
 
 ## 🚀 When to use it

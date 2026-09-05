@@ -41,10 +41,11 @@ rules you need. Tagging is compile-time only; never grep the diff for tag litera
 
 ## Report Format
 
-```markdown
+````markdown
 ## 🛡️ PII/PHI Compliance Audit Report
 
 ### Summary
+
 - **Files Audited:** [count]
 - **Potential Violations Found:** [count]
 - **Status:** [PASS / ACTION REQUIRED]
@@ -54,13 +55,17 @@ rules you need. Tagging is compile-time only; never grep the diff for tag litera
 ### Findings Breakdown
 
 #### 1. [File Path] (Line [Line Number])
+
 - **Severity:** [HIGH / MEDIUM / LOW]
 - **Category:** [Missing Tag Violation / Logging Exposure / Potential Data Leak]
 - **Snippet:**
   ```[language]
   [offending staged line]
   ```
+````
+
 - **Why:** [which config rule is missing / why this path bypasses coverage]
+
 ```
 
 If `component-decorator.config.js` wasn't found, replace `Category` with `Unverified —
@@ -84,3 +89,4 @@ Summary.
 - A component with no `className`/prop path a rule could ever target is a real gap, not
   a false negative — call it out explicitly so the human knows a `wrapWith` or new rule
   is needed, not just a config edit.
+```

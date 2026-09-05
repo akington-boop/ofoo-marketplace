@@ -52,14 +52,17 @@ Output is a single Markdown report, grouped by severity:
 ## WCAG Audit — staged diff
 
 ### 🔴 CRITICAL (2)
+
 - **S8** `src/Button.tsx:42` — Interactive div with onClick but no role or keyboard handler
 - **F1** `src/Form.tsx:18` — Input without associated label
 
 ### 🟡 IMPORTANT (3)
+
 - **K4** `src/App.tsx:5` — No skip link as first focusable element
 - **V3** `src/styles.css:24` — Fixed font-size preventing resize
 
 ### 🔵 SUGGESTION (1)
+
 - **V5** `src/Card.css:12` — Animation without prefers-reduced-motion guard
 
 ✅ No findings in: Operable, Understandable
@@ -69,17 +72,17 @@ Output is a single Markdown report, grouped by severity:
 - **🟡 IMPORTANT** — significant barrier for assistive tech users; fix in the same sprint
 - **🔵 SUGGESTION** — improves usability; plan for a future iteration
 
-| Codes | Category |
-|-------|----------|
-| S1–S8 | Semantic HTML |
-| D1–D4 | Media (decorative/informational) |
-| V1–V5 | Visual and color |
-| K1–K7 | Keyboard and focus |
-| F1–F6 | Forms, labels, error handling |
-| A1–A8 | ARIA |
-| RX1–RX4 | React/Next.js |
-| NG1–NG4 | Angular |
-| VU1–VU3 | Vue |
+| Codes   | Category                         |
+| ------- | -------------------------------- |
+| S1–S8   | Semantic HTML                    |
+| D1–D4   | Media (decorative/informational) |
+| V1–V5   | Visual and color                 |
+| K1–K7   | Keyboard and focus               |
+| F1–F6   | Forms, labels, error handling    |
+| A1–A8   | ARIA                             |
+| RX1–RX4 | React/Next.js                    |
+| NG1–NG4 | Angular                          |
+| VU1–VU3 | Vue                              |
 
 ## 🛡️ Limitations
 

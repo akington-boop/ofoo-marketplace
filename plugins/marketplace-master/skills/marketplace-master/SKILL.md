@@ -20,7 +20,7 @@ Runs the marketplace's structural verification checks and reports the results. A
 5. If this run was triggered by adding or updating a plugin (not just a routine check), also:
    - Add or update `plugins/<id>/README.md` for that plugin — what it's for, when to use it, usage — matching the style of existing plugin READMEs.
    - Add or update the root `CHANGELOG.md` with an entry for the change, following the existing Keep a Changelog style in that file (or use the `changelog` skill).
-   Root `README.md`'s plugin table is already kept in sync automatically (see below) — don't hand-edit it.
+     Root `README.md`'s plugin table is already kept in sync automatically (see below) — don't hand-edit it.
 
 ### Example output
 

@@ -32,6 +32,7 @@ Present your findings strictly in the following Markdown format:
 ## 🛡️ PII/PHI Compliance Audit Report
 
 ### Summary
+
 - **Files Audited:** [Count]
 - **Potential Violations Found:** [Count]
 - **Status:** [PASS / ACTION REQUIRED]
@@ -43,8 +44,10 @@ Present your findings strictly in the following Markdown format:
 For each potential issue found, provide:
 
 #### 1. [File Path] (Line [Line Number])
+
 - **Severity:** [HIGH / MEDIUM / LOW]
 - **Category:** [Unwrapped PII / Unwrapped PHI / Potential Data Leak / Logging Exposure]
 - **Snippet:**
   ```[language]
   [Paste offending staged code line]
+  ```

@@ -1,8 +1,8 @@
 {
-  "name": "wcag-audit",
-  "version": "1.0.0",
-  "description": "WCAG 2.2 AA accessibility auditor, single-pass.",
-  "author": {
-    "name": "Andy Kington"
-  }
+	"name": "wcag-audit",
+	"version": "1.0.0",
+	"description": "WCAG 2.2 AA accessibility auditor, single-pass.",
+	"author": {
+		"name": "Andy Kington"
+	}
 }

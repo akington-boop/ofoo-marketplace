@@ -10,7 +10,7 @@ Prompts that work fine with other LLMs often leave value on the table with Claud
 - **Context Placement** — long documents near the top, the specific query at the bottom (Claude weights the end of the prompt more heavily)
 - **XML Tagging** — sections separated with tags like `<context>`, `<instructions>`, `<examples>`
 - **Few-Shot Examples** — 1–3 realistic input/output pairs
-- **Positive Framing** — what Claude *should* do, not just constraints
+- **Positive Framing** — what Claude _should_ do, not just constraints
 - **Uncertainty Guardrail** — explicit permission to say "I don't know" instead of guessing
 - **Output Schema** — a precise response structure (JSON schema, XML, character limits)
 
@@ -40,15 +40,15 @@ Not for: prompts targeting other models, or a stylistic rewrite of wording/tone 
 
 **claudify-prompt** responds:
 
-| Check | Verdict | Reason |
-|---|---|---|
-| Role & Context | fail | No persona or tone specified beyond "PR summarizer" |
-| Context Placement | fail | Diff and file list (reference data) are fine at the top, but there's no query below them — the task is only implied by the opening line |
-| XML Tagging | fail | No tags; diff and instructions run together as plain text |
-| Few-Shot Examples | fail | None — no sample summary shown |
-| Positive Framing | pass | "write a summary" is a positive instruction |
-| Uncertainty Guardrail | fail | No fallback if the diff is empty or unreadable |
-| Output Schema | fail | No length limit or format (prose? bullets? conventional-commit style?) |
+| Check                 | Verdict | Reason                                                                                                                                  |
+| --------------------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Role & Context        | fail    | No persona or tone specified beyond "PR summarizer"                                                                                     |
+| Context Placement     | fail    | Diff and file list (reference data) are fine at the top, but there's no query below them — the task is only implied by the opening line |
+| XML Tagging           | fail    | No tags; diff and instructions run together as plain text                                                                               |
+| Few-Shot Examples     | fail    | None — no sample summary shown                                                                                                          |
+| Positive Framing      | pass    | "write a summary" is a positive instruction                                                                                             |
+| Uncertainty Guardrail | fail    | No fallback if the diff is empty or unreadable                                                                                          |
+| Output Schema         | fail    | No length limit or format (prose? bullets? conventional-commit style?)                                                                  |
 
 Suggested rewrite:
 

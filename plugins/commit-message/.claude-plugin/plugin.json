@@ -1,8 +1,8 @@
 {
-  "name": "commit-message",
-  "version": "1.0.0",
-  "description": "create commit message for staged, needs `ISSUE-ID`",
-  "author": {
-    "name": "Andy Kington"
-  }
+	"name": "commit-message",
+	"version": "1.0.0",
+	"description": "create commit message for staged, needs `ISSUE-ID`",
+	"author": {
+		"name": "Andy Kington"
+	}
 }
