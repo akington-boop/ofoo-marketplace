@@ -71,7 +71,7 @@ No decision has been made yet — this is a fresh choice for the next session.
 
 - Marketplace plugin docs: `plugins/phipii-mini-audit/` (tech-brief.md, pii-protection-implementation-guide.md, README.md, gemini-prompt.md)
 - Real plugin source (outside this repo): `~/build/component-decorator/src/Webpack/MuiComponentDecoratorPlugin/README.md` and sibling `.ts` files
-- Repo root conventions: `CLAUDE.md` at repo root (plugin marketplace structure rules — manifest isolation, `${CLAUDE_PLUGIN_ROOT}`, run `/marketplace-master` before committing plugin.json changes)
+- Repo root conventions: `CLAUDE.md` at repo root (plugin marketplace structure rules — manifest isolation, `${CLAUDE_PLUGIN_ROOT}`, run `/verify-marketplace` before committing plugin.json changes)
 
 ## Suggested skills for next session
 

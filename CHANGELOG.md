@@ -1,6 +1,10 @@
 # Changelog
 
-## [Unreleased] - 2026-09-04
+## [Unreleased] - 2026-09-05
+
+### Removed
+
+- `marketplace-master` skill (TypeScript verifier), replaced by `verify-marketplace` (bash + `lib/*.sh` modules).
 
 ### Added
 

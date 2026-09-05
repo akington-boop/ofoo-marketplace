@@ -35,7 +35,7 @@ Then install any plugin from it:
    ```
    npm run verify
    ```
-   or, from an active Claude Code session, `/marketplace-master` (repo-level skill, lives in `.claude/skills/marketplace-master/`, not a plugin).
+   or, from an active Claude Code session, `/verify-marketplace` (repo-level skill, lives in `.claude/skills/verify-marketplace/`, not a plugin).
 
 ## 🛠️ Development
 
