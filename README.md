@@ -16,17 +16,16 @@ Then install any plugin from it:
 
 ## 🧩 Plugins
 
-| Plugin               | Description                                                                          |
-| -------------------- | ------------------------------------------------------------------------------------ |
-| `wcag-audit`         | WCAG 2.2 AA accessibility auditor, single-pass                                       |
-| `ponytail`           | Enforces the laziest working solution (YAGNI ladder)                                 |
-| `cve-table`          | npm audit to Vulnerable/Severity/GitHub-Id table                                     |
-| `upscale-markdown`   | Decorates Markdown headers with matched emoji                                        |
-| `changelog`          | Generates/updates CHANGELOG.md from git history                                      |
-| `marketplace-master` | Verifies plugin and marketplace structural standards                                 |
-| `claudify-prompt`    | Reviews or drafts prompts intended for Claude against a prompt-engineering checklist |
-| `phipii-mini-audit`  | Audits staged changes for untagged PII/PHI exposure                                  |
-| `commit-message`     | Generates a commit message for staged changes, prefixed with an issue ID             |
+| Plugin              | Description                                                                          |
+| ------------------- | ------------------------------------------------------------------------------------ |
+| `wcag-audit`        | WCAG 2.2 AA accessibility auditor, single-pass                                       |
+| `ponytail`          | Enforces the laziest working solution (YAGNI ladder)                                 |
+| `cve-table`         | npm audit to Vulnerable/Severity/GitHub-Id table                                     |
+| `upscale-markdown`  | Decorates Markdown headers with matched emoji                                        |
+| `changelog`         | Generates/updates CHANGELOG.md from git history                                      |
+| `claudify-prompt`   | Reviews or drafts prompts intended for Claude against a prompt-engineering checklist |
+| `phipii-mini-audit` | Audits staged changes for untagged PII/PHI exposure                                  |
+| `commit-message`    | Generates a commit message for staged changes, prefixed with an issue ID             |
 
 ## ➕ Adding a plugin
 
@@ -36,7 +35,7 @@ Then install any plugin from it:
    ```
    npm run verify
    ```
-   or, from an active Claude Code session, `/marketplace-master`.
+   or, from an active Claude Code session, `/marketplace-master` (repo-level skill, lives in `.claude/skills/marketplace-master/`, not a plugin).
 
 ## 🛠️ Development
 

@@ -32,11 +32,6 @@
 			"source": "./plugins/changelog"
 		},
 		{
-			"name": "marketplace-master",
-			"description": "Verifies plugin and marketplace structural standards.",
-			"source": "./plugins/marketplace-master"
-		},
-		{
 			"name": "claudify-prompt",
 			"description": "Reviews or drafts prompts intended for Claude against a prompt-engineering checklist.",
 			"source": "./plugins/claudify-prompt"

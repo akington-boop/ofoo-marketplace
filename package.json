@@ -4,16 +4,20 @@
 	"type": "module",
 	"scripts": {
 		"typecheck": "tsc --noEmit",
-		"lint": "oxlint",
+		"lint": "oxlint --format unix",
 		"fmt": "oxfmt",
 		"test": "node --test",
-		"verify": "node plugins/marketplace-master/skills/marketplace-master/verify.ts"
+		"verify": "node .claude/skills/marketplace-master/verify.ts"
 	},
 	"devDependencies": {
 		"@types/node": "^24.13.3",
 		"@webmdhs/eslint-config": "^6.0.0",
+		"eslint-plugin-n": "^18.3.0",
 		"oxfmt": "^0.66.0",
 		"oxlint": "^1.81.0",
 		"typescript": "7.0.2"
+	},
+	"engines": {
+		"node": ">=24.20.0"
 	}
 }

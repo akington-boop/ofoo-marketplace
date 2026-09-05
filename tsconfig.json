@@ -11,5 +11,11 @@
 		"erasableSyntaxOnly": true,
 		"types": ["node"]
 	},
-	"include": ["plugins/**/*.js", "plugins/**/*.ts"]
+	"include": [
+		"plugins/**/*.js",
+		"plugins/**/*.ts",
+		".claude/skills/**/*.js",
+		".claude/skills/**/*.ts",
+		"test/**/*.ts"
+	]
 }

@@ -14,19 +14,19 @@ import {
 	syncReadme,
 	runVerification,
 	formatReport,
-} from "../plugins/marketplace-master/skills/marketplace-master/verify.ts";
+} from "../.claude/skills/marketplace-master/verify.ts";
 
 function tmpRepo() {
 	return fs.mkdtempSync(path.join(os.tmpdir(), "marketplace-master-"));
 }
 
-function writeFile(root, relPath, content) {
+function writeFile(root: string, relPath: string, content: string) {
 	const full = path.join(root, relPath);
 	fs.mkdirSync(path.dirname(full), { recursive: true });
 	fs.writeFileSync(full, content);
 }
 
-function goodPluginFiles(pluginId) {
+function goodPluginFiles(pluginId: string) {
 	return {
 		[`plugins/${pluginId}/.claude-plugin/plugin.json`]: JSON.stringify({
 			name: pluginId,

@@ -8,12 +8,14 @@
 - `commit-message` plugin: generates commit messages.
 - TypeScript typechecking (`npm run typecheck`) for marketplace scripts.
 - `marketplace-master` skill now surfaces non-blocking suggestions for unused SKILL.md frontmatter fields.
+- `eslint-plugin-n` wired into oxlint via `jsPlugins`, closing the remaining `n:*` rule gap (no-missing-import, no-deprecated-api, no-unsupported-features/*, etc.) without needing eslint.
 
 ### Changed
 
 - Converted the marketplace verifier from `verify.js` to `verify.ts`.
 - `marketplace-master` skill: after adding/updating a plugin, also update the plugin's README and this CHANGELOG.
 - `commit-message` skill no longer requires an issue ID.
+- Moved `marketplace-master` out of `plugins/` into `.claude/skills/marketplace-master/` — it's a repo-level skill, not an installable plugin, and no longer appears in `marketplace.json`.
 
 ## [1.2.0] - 2026-08-31
 

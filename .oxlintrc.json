@@ -1,6 +1,7 @@
 {
 	"$schema": "./node_modules/oxlint/configuration_schema.json",
 	"plugins": ["typescript", "unicorn", "oxc", "node"],
+	"jsPlugins": [{ "name": "n-js", "specifier": "eslint-plugin-n" }],
 	"categories": {
 		"correctness": "error",
 		"suspicious": "error"
@@ -41,7 +42,20 @@
 		"no-var": "error",
 		"no-void": "error",
 		"radix": "error",
-		"yoda": "error"
+		"yoda": "error",
+		"n-js/no-missing-import": "error",
+		"n-js/no-missing-require": "error",
+		"n-js/no-extraneous-import": "error",
+		"n-js/no-extraneous-require": "error",
+		"n-js/no-unpublished-import": "error",
+		"n-js/no-unpublished-require": "error",
+		"n-js/no-deprecated-api": "error",
+		"n-js/no-process-exit": "error",
+		"n-js/process-exit-as-throw": "error",
+		"n-js/hashbang": "error",
+		"n-js/no-unsupported-features/es-builtins": "error",
+		"n-js/no-unsupported-features/es-syntax": "error",
+		"n-js/no-unsupported-features/node-builtins": "error"
 	},
 	"overrides": [
 		{
