@@ -45,6 +45,11 @@
       "name": "phipii-mini-audit",
       "description": "Audits staged changes for untagged PII/PHI exposure.",
       "source": "./plugins/phipii-mini-audit"
+    },
+    {
+      "name": "commit-message",
+      "description": "Generates a commit message for staged changes, prefixed with an issue ID.",
+      "source": "./plugins/commit-message"
     }
   ]
 }

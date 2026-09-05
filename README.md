@@ -27,6 +27,7 @@ Then install any plugin from it:
 | `marketplace-master` | Verifies plugin and marketplace structural standards |
 | `claudify-prompt` | Reviews or drafts prompts intended for Claude against a prompt-engineering checklist |
 | `phipii-mini-audit` | Audits staged changes for untagged PII/PHI exposure |
+| `commit-message` | Generates a commit message for staged changes, prefixed with an issue ID |
 
 ## ➕ Adding a plugin
 
