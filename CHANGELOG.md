@@ -2,24 +2,24 @@
 
 ## [Unreleased] - 2026-09-05
 
-### Removed
-
-- `marketplace-master` skill (TypeScript verifier), replaced by `verify-marketplace` (bash + `lib/*.sh` modules).
-
 ### Added
 
 - `phipii-mini-audit` plugin: audits code for untagged PII/PHI against a research-backed tagging ruleset.
-- `commit-message` plugin: generates commit messages.
-- TypeScript typechecking (`npm run typecheck`) for marketplace scripts.
-- `marketplace-master` skill now surfaces non-blocking suggestions for unused SKILL.md frontmatter fields.
-- `eslint-plugin-n` wired into oxlint via `jsPlugins`, closing the remaining `n:*` rule gap (no-missing-import, no-deprecated-api, no-unsupported-features/*, etc.) without needing eslint.
+- `commit-message` plugin: generates structured git commit messages with optional issue IDs.
+- `verify-marketplace` skill (`.claude/skills/verify-marketplace/`): modular Bash verifier (`verify.sh` + `lib/*.sh`) that checks plugin manifests, catalog entries, and frontmatter.
+- `ts-erasable-refactorer` skill (`.claude/skills/ts-erasable-refactorer/SKILL.md`): refactors JavaScript code into zero-compile TypeScript adhering to `erasableSyntaxOnly`.
+- Oxlint and oxfmt evaluation documentation under `docs/oxlint-oxfmt/`.
 
 ### Changed
 
-- Converted the marketplace verifier from `verify.js` to `verify.ts`.
-- `marketplace-master` skill: after adding/updating a plugin, also update the plugin's README and this CHANGELOG.
-- `commit-message` skill no longer requires an issue ID.
-- Moved `marketplace-master` out of `plugins/` into `.claude/skills/marketplace-master/` — it's a repo-level skill, not an installable plugin, and no longer appears in `marketplace.json`.
+- Replaced Node.js/TypeScript verification tools with zero-dependency Bash scripts across the repository (including converting `cve-table` rendering to `render-table.sh`).
+- Updated repository guidelines and documentation (`CLAUDE.md`, `README.md`, `maintain-plugin.md`, `docs/agents/`) to reference `verify-marketplace` and current workflow conventions.
+
+### Removed
+
+- `marketplace-master` skill/plugin, replaced by `verify-marketplace`.
+- Node.js dependencies and tests (`package.json`, `test/verify.test.js`).
+- Obsolete research documentation (`docs/research/bitbucket_w_claude_on_ubuntu.md`).
 
 ## [1.2.0] - 2026-08-31
 
