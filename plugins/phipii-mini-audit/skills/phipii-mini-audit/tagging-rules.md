@@ -3,6 +3,7 @@ tagging=compile-time only. no source string/attr marker exists (`GlobalLinkNoTx`
 config: `component-decorator.config.js` (repo root). find: `find . -name "component-decorator.config.js" -not -path "*/node_modules/*"`. missing → no coverage assertable, mark all hits unverified.
 
 config schema:
+
 ```
 { rules: [{ match, target?, wrapWith?, whenProp?: {name,value,match:"exact"|"token",matchConditionalBranches?} }], ignore: [], defaultWrapWith }
 ```

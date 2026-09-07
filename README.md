@@ -14,19 +14,18 @@ Then install any plugin from it:
 /plugin install <plugin-id>@ofoo-marketplace
 ```
 
-
 ## 🧩 Plugins
 
-| Plugin | Description |
-|---|---|
-| `wcag-audit` | WCAG 2.2 AA accessibility auditor, single-pass |
-| `ponytail` | Enforces the laziest working solution (YAGNI ladder) |
-| `cve-table` | npm audit to Vulnerable/Severity/GitHub-Id table |
-| `upscale-markdown` | Decorates Markdown headers with matched emoji |
-| `changelog` | Generates/updates CHANGELOG.md from git history |
-| `marketplace-master` | Verifies plugin and marketplace structural standards |
-| `claudify-prompt` | Reviews or drafts prompts intended for Claude against a prompt-engineering checklist |
-| `phipii-mini-audit` | Audits staged changes for untagged PII/PHI exposure |
+| Plugin              | Description                                                                          |
+| ------------------- | ------------------------------------------------------------------------------------ |
+| `wcag-audit`        | WCAG 2.2 AA accessibility auditor, single-pass                                       |
+| `ponytail`          | Enforces the laziest working solution (YAGNI ladder)                                 |
+| `cve-table`         | npm audit to Vulnerable/Severity/GitHub-Id table                                     |
+| `upscale-markdown`  | Decorates Markdown headers with matched emoji                                        |
+| `changelog`         | Generates/updates CHANGELOG.md from git history                                      |
+| `claudify-prompt`   | Reviews or drafts prompts intended for Claude against a prompt-engineering checklist |
+| `phipii-mini-audit` | Audits staged changes for untagged PII/PHI exposure                                  |
+| `commit-message`    | Generates a commit message for staged changes, prefixed with an issue ID             |
 
 ## ➕ Adding a plugin
 
@@ -36,11 +35,11 @@ Then install any plugin from it:
    ```
    npm run verify
    ```
-   or, from an active Claude Code session, `/marketplace-master`.
+   or, from an active Claude Code session, `/verify-marketplace` (repo-level skill, lives in `.claude/skills/verify-marketplace/`, not a plugin).
 
 ## 🛠️ Development
 
 ```
-npm test     # run verify.js's unit tests
+npm test     # run verify.ts's unit tests
 npm run verify   # check all plugins against the structural rules
 ```

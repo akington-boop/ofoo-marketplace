@@ -8,7 +8,6 @@ The original author updates and had more lazy plugins. [DietrichGebert/ponytail]
 
 MIT licensed, copyright (c) 2026 DietrichGebert. See [LICENSE](./LICENSE).
 
-
 ## 📌 What it's for
 
 Left unchecked, coding assistants tend to over-build: extra abstractions, speculative config, new dependencies for what a few lines would cover. This skill makes Claude stop at the first rung of a ladder that holds:

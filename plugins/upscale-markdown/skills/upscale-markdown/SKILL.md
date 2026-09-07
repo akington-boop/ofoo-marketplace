@@ -8,6 +8,7 @@ Decorate the headers of a Markdown document with relevant emoji. This is a forma
 ## Input handling
 
 Arguments may be:
+
 1. **A file reference** (e.g. `@somefile.md` or a bare path) — read the file, decorate it, then write the result back to the same path with Edit. Report what changed (which headers got which emoji) in a short summary; do not print the full file back.
 2. **Raw Markdown pasted inline** (no file reference present) — decorate it and print the full result directly to the terminal as a fenced ` ```markdown ` block. Do not write any file.
 
@@ -24,12 +25,14 @@ If no argument and no pasted content is given, ask the user for the file or text
 ## Emoji vocabulary
 
 **READMEs / repos:**
+
 - Management: 📌 Overview · 🗺️ Roadmap · 👥 Contributors · 📄 License
 - Execution: 🚀 Getting Started · 📦 Installation · ⚙️ Configuration · 🛠️ Usage
 - Technical: 🧬 Architecture · 📊 Benchmarks · 🧪 Testing · 🛡️ Security
 - Community: 🤝 Contributing · 🙌 Acknowledgments · 💬 Support/FAQ
 
 **Reports (business/academic/analytical):**
+
 - Foundations: 🎯 Objectives · 📖 Background · 📝 Executive Summary
 - Data & Methods: 🔬 Methodology · 📊 Data Analysis · 📉 Limitations
 - Outcomes: 💡 Key Findings · ✅ Recommendations · 🔮 Future Outlook

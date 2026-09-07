@@ -1,16 +1,6 @@
 ---
 name: changelog
 description: Generate or update a CHANGELOG.md following the Keep a Changelog standard. Use when the user says "/changelog", "generate changelog", "update changelog", or "write the changelog".
-version: 1
-prompt:
-  options:
-    - name: mode
-      description: "Source of changes to document"
-      values: [staged, commits, full]
-      default: staged
-    - name: version
-      description: "Version label for the changelog entry (e.g. 1.0.0); omit to use [Unreleased]"
-      type: string
 ---
 
 # changelog
@@ -44,9 +34,11 @@ Generate or update a `CHANGELOG.md` in the current project using staged/committe
    ## [Unreleased] - 2026-08-07
 
    ### Changed
+
    - Apply ScopedCssBaseline rule universally; remove repo-scoped carve-outs.
 
    ### Removed
+
    - Drop ui-messaging-specific view-model/JSX Editor() rule.
    ```
 

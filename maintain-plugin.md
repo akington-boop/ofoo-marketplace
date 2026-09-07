@@ -19,27 +19,28 @@ You are an expert AI architect managing a Claude Code plugin marketplace reposit
 
 Plugin Manifest (`plugins/<plugin-id>/.claude-plugin/plugin.json`):
 {
-  "name": "plugin-name",
-  "version": "1.0.0",
-  "description": "Short, clear plugin summary",
-  "author": "Team/Author"
+"name": "plugin-name",
+"version": "1.0.0",
+"description": "Short, clear plugin summary",
+"author": "Team/Author"
 }
 
 Marketplace Registry (`.claude-plugin/marketplace.json`):
 {
-  "name": "org-marketplace",
-  "plugins": [
-    {
-      "id": "plugin-name",
-      "name": "Plugin Name",
-      "description": "Description of functionality",
-      "source": "./plugins/plugin-name"
-    }
-  ]
+"name": "org-marketplace",
+"plugins": [
+{
+"id": "plugin-name",
+"name": "Plugin Name",
+"description": "Description of functionality",
+"source": "./plugins/plugin-name"
+}
+]
 }
 
 Skill Template (`plugins/<plugin-id>/skills/<skill-name>/SKILL.md`):
 ---
+
 name: skill-name
 description: Concise description used for context selection
 ---
@@ -47,5 +48,6 @@ description: Concise description used for context selection
 # Skill Title
 
 ## Instructions
+
 1. Procedural step one...
 2. Procedural step two...

@@ -1,50 +1,50 @@
 {
-  "name": "ofoo-marketplace",
-  "description": "Andy Kington's internal plugin marketplace.",
-  "owner": {
-    "name": "Andy Kington",
-    "email": "akington@webmd.net"
-  },
-  "plugins": [
-    {
-      "name": "wcag-audit",
-      "description": "WCAG 2.2 AA accessibility auditor, single-pass.",
-      "source": "./plugins/wcag-audit"
-    },
-    {
-      "name": "ponytail",
-      "description": "Enforces the laziest working solution (YAGNI ladder).",
-      "source": "./plugins/ponytail"
-    },
-    {
-      "name": "cve-table",
-      "description": "npm audit to Vulnerable/Severity/GitHub-Id table.",
-      "source": "./plugins/cve-table"
-    },
-    {
-      "name": "upscale-markdown",
-      "description": "Decorates Markdown headers with matched emoji.",
-      "source": "./plugins/upscale-markdown"
-    },
-    {
-      "name": "changelog",
-      "description": "Generates/updates CHANGELOG.md from git history.",
-      "source": "./plugins/changelog"
-    },
-    {
-      "name": "marketplace-master",
-      "description": "Verifies plugin and marketplace structural standards.",
-      "source": "./plugins/marketplace-master"
-    },
-    {
-      "name": "claudify-prompt",
-      "description": "Reviews or drafts prompts intended for Claude against a prompt-engineering checklist.",
-      "source": "./plugins/claudify-prompt"
-    },
-    {
-      "name": "phipii-mini-audit",
-      "description": "Audits staged changes for untagged PII/PHI exposure.",
-      "source": "./plugins/phipii-mini-audit"
-    }
-  ]
+	"name": "ofoo-marketplace",
+	"description": "Andy Kington's internal plugin marketplace.",
+	"owner": {
+		"name": "Andy Kington",
+		"email": "akington@webmd.net"
+	},
+	"plugins": [
+		{
+			"name": "wcag-audit",
+			"description": "WCAG 2.2 AA accessibility auditor, single-pass.",
+			"source": "./plugins/wcag-audit"
+		},
+		{
+			"name": "ponytail",
+			"description": "Enforces the laziest working solution (YAGNI ladder).",
+			"source": "./plugins/ponytail"
+		},
+		{
+			"name": "cve-table",
+			"description": "npm audit to Vulnerable/Severity/GitHub-Id table.",
+			"source": "./plugins/cve-table"
+		},
+		{
+			"name": "upscale-markdown",
+			"description": "Decorates Markdown headers with matched emoji.",
+			"source": "./plugins/upscale-markdown"
+		},
+		{
+			"name": "changelog",
+			"description": "Generates/updates CHANGELOG.md from git history.",
+			"source": "./plugins/changelog"
+		},
+		{
+			"name": "claudify-prompt",
+			"description": "Reviews or drafts prompts intended for Claude against a prompt-engineering checklist.",
+			"source": "./plugins/claudify-prompt"
+		},
+		{
+			"name": "phipii-mini-audit",
+			"description": "Audits staged changes for untagged PII/PHI exposure.",
+			"source": "./plugins/phipii-mini-audit"
+		},
+		{
+			"name": "commit-message",
+			"description": "Generates a commit message for staged changes, prefixed with an issue ID.",
+			"source": "./plugins/commit-message"
+		}
+	]
 }

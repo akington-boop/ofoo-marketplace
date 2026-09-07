@@ -1,8 +1,8 @@
 {
-  "name": "ponytail",
-  "version": "1.0.0",
-  "description": "Enforces the laziest working solution (YAGNI ladder).",
-  "author": {
-    "name": "Andy Kington"
-  }
+	"name": "ponytail",
+	"version": "1.0.0",
+	"description": "Enforces the laziest working solution (YAGNI ladder).",
+	"author": {
+		"name": "Andy Kington"
+	}
 }

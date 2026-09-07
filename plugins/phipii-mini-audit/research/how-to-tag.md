@@ -29,11 +29,11 @@ Tagging happens at compile time, so it never shows up in source. To verify:
 const { MuiComponentDecoratorPlugin } = require("@webmdhs/component-decorator");
 
 new MuiComponentDecoratorPlugin({
-  configFile: path.join(__dirname, "component-decorator.config.js"), // default
-  className: "GlobalLinkNoTx",  // default
-  useCoreRules: true,           // enable built-in MUI v5/v6 + native rules
-  includePackages: true,        // patch third-party packages directly (default)
-  validateRules: true,          // warn on unmatched rules (default)
+	configFile: path.join(__dirname, "component-decorator.config.js"), // default
+	className: "GlobalLinkNoTx", // default
+	useCoreRules: true, // enable built-in MUI v5/v6 + native rules
+	includePackages: true, // patch third-party packages directly (default)
+	validateRules: true, // warn on unmatched rules (default)
 });
 ```
 
@@ -43,19 +43,19 @@ Rules live in `component-decorator.config.js` at the project root:
 
 ```js
 module.exports = {
-  rules: [
-    // Prop injection: component forwards className down to a DOM element
-    { match: "@mui/material/TextField", target: "inputProps.className" },   // MUI v5
-    { match: "@mui/material/TextField", target: "slotProps.htmlInput.className" }, // MUI v6
+	rules: [
+		// Prop injection: component forwards className down to a DOM element
+		{ match: "@mui/material/TextField", target: "inputProps.className" }, // MUI v5
+		{ match: "@mui/material/TextField", target: "slotProps.htmlInput.className" }, // MUI v6
 
-    // Component ignores className entirely — wrap it instead
-    { match: "my-lib/AvatarPicker", wrapWith: "span" },
+		// Component ignores className entirely — wrap it instead
+		{ match: "my-lib/AvatarPicker", wrapWith: "span" },
 
-    // Third-party npm package — patches its compiled output directly, no source edits
-    { match: "@webmdhs/universal-profile-avatar-component", target: "className" },
-  ],
-  ignore: ["@mui/material/TextField"],   // opt components out entirely
-  defaultWrapWith: "span",
+		// Third-party npm package — patches its compiled output directly, no source edits
+		{ match: "@webmdhs/universal-profile-avatar-component", target: "className" },
+	],
+	ignore: ["@mui/material/TextField"], // opt components out entirely
+	defaultWrapWith: "span",
 };
 ```
 

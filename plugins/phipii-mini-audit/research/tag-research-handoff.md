@@ -1,12 +1,14 @@
 # Handoff: phipii-mini-audit plugin docs vs. real source
 
 ## Context
+
 Branch: `phipii-mini-audit` in `/home/akington/ofoo-marketplace`. Working on the
 `plugins/phipii-mini-audit/` plugin, which documents the `MuiComponentDecoratorPlugin`
 (a Webpack 5 build-time AST plugin that injects a `GlobalLinkNoTx` CSS class
 into form inputs / MUI components to block PII/PHI from translation vendors).
 
 ## What was done this session (research only, no edits yet)
+
 - Read `plugins/phipii-mini-audit/tech-brief.md` and
   `plugins/phipii-mini-audit/pii-protection-implementation-guide.md`. Found both are
   prose/marketing-style summaries with **no actual tagging rules, config
@@ -40,20 +42,24 @@ conversation transcript, or re-read the source files listed above, rather
 than re-deriving from scratch.
 
 ## Current git state
+
 ```
 A  plugins/phipii-mini-audit/README.md
 AM plugins/phipii-mini-audit/gemini-prompt.md
 ?? plugins/phipii-mini-audit/pii-protection-implementation-guide.md
 ?? plugins/phipii-mini-audit/tech-brief.md
 ```
+
 No commits made this session. `plugins/phipii-mini-audit/README.md` (already
 staged) has NOT been reviewed yet this session — check its content before
 assuming it needs the same fix.
 
 ## Likely next step (not yet started/agreed with user)
+
 The user was told the marketplace docs should probably be replaced with, or
 link to, the real README content from `~/build/component-decorator/src/...`.
 Confirm with the user whether they want:
+
 1. The real README copied/adapted into `plugins/phipii-mini-audit/`, or
 2. `tech-brief.md` / `pii-protection-implementation-guide.md` rewritten to
    include the actual rule syntax, or
@@ -62,11 +68,13 @@ Confirm with the user whether they want:
 No decision has been made yet — this is a fresh choice for the next session.
 
 ## Key file paths
+
 - Marketplace plugin docs: `plugins/phipii-mini-audit/` (tech-brief.md, pii-protection-implementation-guide.md, README.md, gemini-prompt.md)
 - Real plugin source (outside this repo): `~/build/component-decorator/src/Webpack/MuiComponentDecoratorPlugin/README.md` and sibling `.ts` files
-- Repo root conventions: `CLAUDE.md` at repo root (plugin marketplace structure rules — manifest isolation, `${CLAUDE_PLUGIN_ROOT}`, run `/marketplace-master` before committing plugin.json changes)
+- Repo root conventions: `CLAUDE.md` at repo root (plugin marketplace structure rules — manifest isolation, `${CLAUDE_PLUGIN_ROOT}`, run `/verify-marketplace` before committing plugin.json changes)
 
 ## Suggested skills for next session
+
 - `plugin-dev:plugin-validator` — run after any plugin file changes in `plugins/phipii-mini-audit/`
 - `plugin-dev:skill-development` or `plugin-dev:plugin-structure` — if restructuring how the docs/plugin are organized
 - `mattpocock-skills:writing-for-agents` — if rewriting these docs to be consumed by an agent (SKILL.md-style) rather than a human
