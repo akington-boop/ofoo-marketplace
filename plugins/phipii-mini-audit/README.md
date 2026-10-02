@@ -1,5 +1,7 @@
 # phipii-mini-audit
 
+👮 No longer updated - moved to [ofoo-marketplace](https://github.com/akington-boop/ofoo-marketplace).
+
 Audits staged git changes for PII/PHI rendered, logged, or transmitted without
 translation-blocking coverage (`GlobalLinkNoTx` via `MuiComponentDecoratorPlugin`,
 configured in `component-decorator.config.js`). Report-only — never edits code.
